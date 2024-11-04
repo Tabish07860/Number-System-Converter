@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number System Converter | Convert Binary, Decimal, Octal, Hexadecimal</title>
+    <meta name="description" content="Easily convert numbers between different number systems (binary, decimal, octal, hexadecimal) with step-by-step explanations and validations.">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .label {
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #555;
+        }
+
+        .select,
+        .input,
+        .button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .button {
+            background: #4f46e5;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #3730a3;
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .result p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Number System Converter</h1>
+        <label for="number-system" class="label">Select Input Number System:</label>
+        <select id="number-system" class="select">
+            <option value="binary">Binary</option>
+            <option value="decimal">Decimal</option>
+            <option value="octal">Octal</option>
+            <option value="hexadecimal">Hexadecimal</option>
+        </select>
+        <label for="input-number" class="label">Enter the Number:</label>
+        <input type="text" id="input-number" class="input" placeholder="Enter your number here">
+        <button class="button" onclick="convertNumber()">Convert</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function convertNumber() {
+            const numberSystem = document.getElementById('number-system').value;
+            let inputNumber = document.getElementById('input-number').value.trim();
+            let decimalNumber;
+
+            if (!isValidNumber(numberSystem, inputNumber)) {
+                alert(`Invalid input for ${numberSystem} system. Please enter a valid number.`);
+                return;
+            }
+
+            switch (numberSystem) {
+                case 'binary':
+                    decimalNumber = parseInt(inputNumber, 2);
+                    break;
+                case 'decimal':
+                    decimalNumber = parseInt(inputNumber, 10);
+                    break;
+                case 'octal':
+                    decimalNumber = parseInt(inputNumber, 8);
+                    break;
+                case 'hexadecimal':
+                    decimalNumber = parseInt(inputNumber, 16);
+                    break;
+                default:
+                    decimalNumber = NaN;
+            }
+
+            if (isNaN(decimalNumber)) {
+                alert("Please enter a valid number.");
+                return;
+            }
+
+            const binary = decimalNumber.toString(2);
+            const octal = decimalNumber.toString(8);
+            const hexadecimal = decimalNumber.toString(16).toUpperCase();
+
+            const steps = `
+                <p><strong>Step-by-Step Conversion:</strong></p>
+                <p>1. Input Number (${numberSystem}): ${inputNumber}</p>
+                <p>2. Convert to Decimal: ${decimalNumber}</p>
+                <p>3. Decimal to Binary: ${binary}</p>
+                <p>4. Decimal to Octal: ${octal}</p>
+                <p>5. Decimal to Hexadecimal: ${hexadecimal}</p>
+            `;
+
+            document.getElementById('result').innerHTML = steps;
+        }
+
+        function isValidNumber(system, number) {
+            const binaryPattern = /^[01]+$/;
+            const octalPattern = /^[0-7]+$/;
+            const decimalPattern = /^[0-9]+$/;
+            const hexPattern = /^[0-9A-Fa-f]+$/;
+
+            switch (system) {
+                case 'binary':
+                    return binaryPattern.test(number);
+                case 'octal':
+                    return octalPattern.test(number);
+                case 'decimal':
+                    return decimalPattern.test(number);
+                case 'hexadecimal':
+                    return hexPattern.test(number);
+                default:
+                    return false;
+            }
+        }
+    </script>
+</body>
+</html>
